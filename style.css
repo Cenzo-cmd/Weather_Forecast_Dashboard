@@ -12,6 +12,15 @@
     margin: 0 10px 0 0;
 }
 
+.conditions {
+    width: 60%;
+}
+
+.forecast {
+    width: 60%;
+    margin-top: 20px;
+}
+
 
 /* .topContainer {} */
 
