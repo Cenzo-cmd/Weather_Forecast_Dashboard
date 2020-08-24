@@ -6,3 +6,16 @@
 #headline1 {
     font-size: 20px;
 }
+
+#displayCityName {
+    float: left;
+    margin: 0 10px 0 0;
+}
+
+
+/* .topContainer {} */
+
+
+/* #displayDate {
+    margin-left: 20px;
+} */
