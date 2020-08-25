@@ -11,6 +11,8 @@ $(document).ready(function() {
 
     function renderCities() {
         $("#addCitiesHere").empty();
+        cities = localStorage.getItem("City").split(",");
+        console.log(cities);
         for (var i = 0; i < cities.length; i++) {
             var liEl = $("<li>")
             liEl.attr("data-name", cities[i]);
@@ -28,6 +30,8 @@ $(document).ready(function() {
         removeActive();
         $(this).addClass("active");
         newCity = $(this).attr("data-name");
+        console.log("new city is " + newCity);
+
         // console.log(newCity);
         searchCity(newCity);
     }
@@ -45,6 +49,7 @@ $(document).ready(function() {
             return;
         };
         cities.unshift(newCity);
+        localStorage.setItem("City", cities);
         // console.log(newCity);
         searchCity(newCity);
         renderCities();
@@ -62,10 +67,10 @@ $(document).ready(function() {
 
             $("#displayCityName").text(newCity);
             $("#humidity").text("Humidity: " + response.main.humidity + "%");
-            $("#temp").text("Temperature: " + response.main.temp + " degrees F");
-            $("#maxTemp").text("Max Temp: " + response.main.temp_max);
+            $("#temp").text("Temperature: " + response.main.temp + "\u00B0F");
+            $("#maxTemp").text("Max Temp: " + response.main.temp_max + "\u00B0F");
             $("#windSpeed").text("Wind Speed: " + response.wind.speed + " MPH");
-            $("#feelsLike").text("Feels Like: " + response.main.feels_like);
+            $("#feelsLike").text("Feels Like: " + response.main.feels_like + "\u00B0F");
             $("#uvIndex").text("UV Index: " + "")
             console.log(response);
 
@@ -93,7 +98,7 @@ $(document).ready(function() {
                 $("#uvIndex").text("UV Index: " + uvIndexValue);
                 let mainIcon = result.daily[0].weather[0].icon;
                 let mainIconImg = "http://openweathermap.org/img/wn/" + mainIcon + ".png";
-                let mainIconImg2 = $("<img>").attr("src", mainIconImg).attr("style", "background-color: whitesmoke").addClass("mainIcon");
+                let mainIconImg2 = $("<img>").attr("src", mainIconImg).addClass("mainIcon");
 
                 $("#emptyDiv").append(mainIconImg2);
                 for (var x = 1; x < 6; x++) {
@@ -115,12 +120,12 @@ $(document).ready(function() {
                     let imageEl = $("<img>").addClass("fiveDayImage").attr("src", fiveDayIcon);
                     $(divEl).append("<h5>" + humanDate + "</h5>");
                     $(divEl).append(imageEl);
-                    $(divEl).append("<p>" + "Temp: " + fiveDayTemp + " F" + "</p>");
+                    $(divEl).append("<p>" + "Temp: " + fiveDayTemp + "\u00B0F" + "</p>");
                     $(divEl).append("<p>" + "Wind " + fiveDayWind + " MPH" + "</p>");
                     $(divEl).append("<p>" + "Humidity: " + fiveDayHumidity + "%" + "</p>");
                     $("#forecast").append(divEl);
                 }
-                // $("#citySearch").val().clear();
+                // $("#citySearch").empty();
             })
 
         })
