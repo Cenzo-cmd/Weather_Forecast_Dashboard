@@ -1,3 +1,8 @@
+#background {
+    background-image: url("./assets/images/background.jpg");
+    background-size: cover;
+}
+
 #cityList {
     width: 30%;
     float: left;
@@ -19,11 +24,17 @@
 #forecast {
     width: 60%;
     margin-top: 20px;
+    float: right;
+    margin-right: 10%;
 }
 
 .fiveDayCard {
     /* margin-top: 10px; */
     padding: 10px;
+}
+
+.fiveDayImage {
+    width: 70px;
 }
 
 
