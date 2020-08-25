@@ -16,9 +16,14 @@
     width: 60%;
 }
 
-.forecast {
+#forecast {
     width: 60%;
     margin-top: 20px;
+}
+
+.fiveDayCard {
+    /* margin-top: 10px; */
+    padding: 10px;
 }
 
 
