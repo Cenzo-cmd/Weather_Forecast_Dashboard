@@ -12,11 +12,11 @@
     <title>Hello, world!</title>
 </head>
 
-<body style="background-color: aliceblue;" id="background">
+<body id="background">
     <header>
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <h1 class="display-4">Weather Dashboard</h1>
+        <div class="headCont">
+            <div class="container"><br><br>
+                <h1 class="display-4">Weather Dashboard</h1><br><br>
             </div>
         </div>
     </header>
@@ -27,9 +27,7 @@
                 <label for="search" id="headline1"><strong>Search for a City:</strong></label>
                 <input type="text" placeholder="Search.." class="form-control" id="citySearch">
                 <button type="submit" id="citySubmit"><i class="fas fa-search">  Search</i></button>
-
             </div>
-
             <ul class="list-group" id="addCitiesHere">
                 <li class="list-group-item active city">Austin</li>
                 <li class="list-group-item city">New York</li>
@@ -43,16 +41,19 @@
     <content>
         <div class="card conditions">
             <div class="card-header">
-                Current Conditions
+                <h3 id="displayMainIcon">Current Conditions</h3>
             </div>
             <div class="card-body topContainer">
                 <h3 class="card-title" id="displayCityName">Enter City</h3>
                 <h3 id="displayDate"> Enter Date</h3>
+                <span id="emptyDiv"></span>
+                <!-- <img src="#" id="mainIcon" /> -->
                 <p clas="card-text" id="temp">Temperature: </p>
-                <p clas="card-text" id="humidity">Humidity:</p>
-                <p clas="card-text" id="windSpeed">Wind Speed:</p>
-                <p clas="card-text" id="uvIndex">UV Index</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <p class="card-text" id="maxTemp">Max Temperature:</p>
+                <p class="card-text" id="humidity">Humidity:</p>
+                <p class="card-text" id="windSpeed">Wind Speed:</p>
+                <p class="card-text" id="feelsLike">Feels Like</p>
+                <p class="card-text" id="uvIndex">UV Index: </p>
             </div>
         </div>
     </content>

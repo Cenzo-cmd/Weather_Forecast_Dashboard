@@ -63,7 +63,9 @@ $(document).ready(function() {
             $("#displayCityName").text(newCity);
             $("#humidity").text("Humidity: " + response.main.humidity + "%");
             $("#temp").text("Temperature: " + response.main.temp + " degrees F");
+            $("#maxTemp").text("Max Temp: " + response.main.temp_max);
             $("#windSpeed").text("Wind Speed: " + response.wind.speed + " MPH");
+            $("#feelsLike").text("Feels Like: " + response.main.feels_like);
             $("#uvIndex").text("UV Index: " + "")
             console.log(response);
 
@@ -76,9 +78,26 @@ $(document).ready(function() {
             }).then(function(result) {
                 console.log(result);
                 $("#forecast").empty();
-                var fiveDay = result.daily;
-                $("#uvIndex").text(result.current.uvi);
+                $("#emptyDiv").empty();
+                // var fiveDay = result.daily;
+                let uvIndexValue = result.current.uvi;
+
+
+                if (uvIndexValue < 4) {
+                    $("#uvIndex").attr("style", "background-color: green");;
+                } else if (uvIndexValue > 4 && uvIndexValue < 6) {
+                    $("#uvIndex").attr("style", "background-color: yellow");
+                } else { $("#uvIndex").attr("style", "background-color: red"); };
+
+
+                $("#uvIndex").text("UV Index: " + uvIndexValue);
+                let mainIcon = result.daily[0].weather[0].icon;
+                let mainIconImg = "http://openweathermap.org/img/wn/" + mainIcon + ".png";
+                let mainIconImg2 = $("<img>").attr("src", mainIconImg).attr("style", "background-color: whitesmoke").addClass("mainIcon");
+
+                $("#emptyDiv").append(mainIconImg2);
                 for (var x = 1; x < 6; x++) {
+                    // console.log(result);
                     let fiveDayTemp = result.daily[x].temp.day.toFixed(1);
                     let fiveDayHumidity = result.daily[x].humidity;
                     let fiveDayDate = result.daily[x].sunrise;
@@ -92,20 +111,16 @@ $(document).ready(function() {
                     let humanDate = dateObject.toLocaleDateString();
                     // console.log(humanDate);
 
-                    let divEl = $("<div>").addClass("card fiveDayCard");;
-                    let imageEl = $("<img>").addClass("fiveDayImage").attr("src", fiveDayIcon);;
+                    let divEl = $("<div>").addClass("card fiveDayCard").attr("style", "background-color: deepskyblue");
+                    let imageEl = $("<img>").addClass("fiveDayImage").attr("src", fiveDayIcon);
                     $(divEl).append("<h5>" + humanDate + "</h5>");
                     $(divEl).append(imageEl);
                     $(divEl).append("<p>" + "Temp: " + fiveDayTemp + " F" + "</p>");
                     $(divEl).append("<p>" + "Wind " + fiveDayWind + " MPH" + "</p>");
                     $(divEl).append("<p>" + "Humidity: " + fiveDayHumidity + "%" + "</p>");
-
-
                     $("#forecast").append(divEl);
-
-
                 }
-
+                // $("#citySearch").val().clear();
             })
 
         })

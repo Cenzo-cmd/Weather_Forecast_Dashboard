@@ -21,6 +21,12 @@
     width: 60%;
 }
 
+.headCont {
+    text-align: center;
+    /* background-image: url("./assets/images/background.jpg");
+    background-size: cover; */
+}
+
 #forecast {
     width: 60%;
     margin-top: 20px;
@@ -35,6 +41,25 @@
 
 .fiveDayImage {
     width: 70px;
+}
+
+#uvIndex {
+    display: inline-block;
+}
+
+
+/* #displayDate {
+    display: inline-block;
+} */
+
+#emptyDiv {
+    display: inline-block;
+}
+
+.mainIcon {
+    display: inline-block;
+    margin-left: 50px;
+    width: 100px;
 }
 
 
