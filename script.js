@@ -3,34 +3,55 @@ $(document).ready(function() {
     $("#displayDate").text(date);
 
     var cities = ["Austin", "New York", "Los Angeles", "Las Vegas", "Seattle"];
-
+    // localStorage.setItem("City", cities);
     var APIKey = "dd90d41f6269d68aa74cd38310554e8a";
     renderCities();
-    updateClass();
+    // updateClass();
 
 
     function renderCities() {
         $("#addCitiesHere").empty();
-        cities = localStorage.getItem("City").split(",");
-        console.log(cities);
+
+
+        // if (cities !== null) {
+        //     cities = localStorage.getItem("City").split(",");
+        // }
+
+        // console.log("444444444444444444" + cities.length)
+        // console.log(cities);
         for (var i = 0; i < cities.length; i++) {
             var liEl = $("<li>")
+            var deleteButton = $("<button>").addClass("deleteButton").text("Remove");
             liEl.attr("data-name", cities[i]);
             liEl.addClass("city list-group-item");
             if (i === 0) {
                 liEl.addClass("active");
             }
             liEl.text(cities[i]);
+            liEl.append(deleteButton);
             $("#addCitiesHere").append(liEl);
 
         }
     }
 
-    function updateClass() {
+    $(".deleteButton").on("click", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log("hi");
+        let cityValue = $(this).parent().attr("data-name");
+        console.log("the value is" + cityValue);
+    })
+
+
+    function updateClass(event) {
+        event.preventDefault();
+        // event.stopPropogation();
+        // renderCities();
         removeActive();
         $(this).addClass("active");
         newCity = $(this).attr("data-name");
         console.log("new city is " + newCity);
+
 
         // console.log(newCity);
         searchCity(newCity);
@@ -42,20 +63,9 @@ $(document).ready(function() {
         }
     }
 
-    $("#citySubmit").on("click", function(event) {
-        event.preventDefault();
-        var newCity = $("#citySearch").val().trim();
-        if (newCity === undefined || newCity === NaN || newCity === "") {
-            return;
-        };
-        cities.unshift(newCity);
-        localStorage.setItem("City", cities);
-        // console.log(newCity);
-        searchCity(newCity);
-        renderCities();
-    })
 
     function searchCity(newCity) {
+
         var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${newCity}&units=imperial&appid=${APIKey}`;
         if (newCity === undefined || newCity === NaN || newCity === "") {
             return;
@@ -132,6 +142,23 @@ $(document).ready(function() {
 
     }
 
+    $("#citySubmit").on("click", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var newCity = $("#citySearch").val().trim();
+        if (newCity === undefined || newCity === NaN || newCity === "") {
+            return;
+        };
+        cities.unshift(newCity);
+        if (cities !== null) {
+            localStorage.setItem("City", cities);
+        }
+        searchCity(newCity);
+        renderCities();
+    })
+
+
     $(document).on("click", ".city", updateClass);
+
 
 })
