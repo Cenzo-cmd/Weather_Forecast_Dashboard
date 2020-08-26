@@ -51,6 +51,11 @@
     display: inline-block;
 }
 
+.fiveDayCard {
+    color: white;
+    margin: 5px;
+}
+
 
 /* #displayDate {
     display: inline-block;
