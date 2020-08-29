@@ -1,14 +1,21 @@
 var date = moment().format("L");
 $("#displayDate").text(date);
-
 var cityArray = [];
-// localStorage.setItem("City", cities);
 var APIKey = "dd90d41f6269d68aa74cd38310554e8a";
 
-function renderCities() {
+cityArray = JSON.parse(localStorage.getItem("Cities")) || [];
+renderCities();
+if (cityArray) {
+    searchCity(cityArray[0]);
+}
+
+
+function renderCities(cityArray) {
     console.log(cityArray);
-    if (cityArray.length >= 1) {
+    cityArray = JSON.parse(localStorage.getItem("Cities")) || [];
+    if (cityArray && cityArray.length >= 1) {
         $("#addCitiesHere").empty();
+
         for (var i = 0; i < cityArray.length; i++) {
             var liEl = $("<li>")
                 // var deleteButton = $("<button>").addClass("deleteButton").text("Remove");
@@ -26,24 +33,21 @@ function renderCities() {
     }
 }
 
-$(document).on("click", ".city", clickedCity);
+
 
 function updateClass(cityValueClass) {
-    console.log(cityValueClass);
     removeActive();
-
-
     cityValueClass.addClass("active");
-    console.log("HHHHHHHHHHH", cityValueClass.attr("class"));
 }
 
 function removeActive() {
+    cityArray = JSON.parse(localStorage.getItem("Cities")) || [];
     for (var j = 0; j < cityArray.length; j++) {
         $(".city").removeClass("active");
     }
 }
 
-// $(".deleteButton").on("click", function(event) {
+// $("body").on("click", ".deleteButton", function(event) {
 //     event.preventDefault();
 //     event.stopPropagation();
 //     console.log("hi");
@@ -54,23 +58,35 @@ function removeActive() {
 function clickedCity(event) {
     event.stopPropagation();
     event.preventDefault();
-    var cityValue = event.target.innerHTML;
+    var cityValue = $(this).text();
     var cityValueClass = $(this);
     searchCity(cityValue);
     updateClass(cityValueClass);
 }
 
+$(document).on("click", ".city", clickedCity);
+// event.stopPropagation();
+//     event.preventDefault();
+//     var cityValue = $(this).text();
+
+
+
 $("#citySubmit").on("click", function(event) {
     event.preventDefault();
     event.stopPropagation();
+    // $(this).addClass("active");
     var findNewCity = $("#citySearch").val().trim();
-    console.log(findNewCity);
+
+    // findNewCity.addClass("active");
+    $("#citySearch").val("");
+
     if (findNewCity === undefined || findNewCity === NaN || findNewCity === "") {
         return;
     };
     cityArray.unshift(findNewCity);
+    localStorage.setItem("Cities", JSON.stringify(cityArray));
     searchCity(findNewCity);
-    renderCities();
+    renderCities(cityArray);
 })
 
 function searchCity(findNewCity) {
@@ -83,7 +99,7 @@ function searchCity(findNewCity) {
         url: queryURL,
         method: "GET"
     }).then(function(response) {
-
+        // console.log(response);
         $("#displayCityName").text(findNewCity);
         $("#humidity").text("Humidity: " + response.main.humidity + "%");
         $("#temp").text("Temperature: " + response.main.temp + "\u00B0F");
@@ -99,6 +115,7 @@ function searchCity(findNewCity) {
             url: latLong,
             method: "GET"
         }).then(function(result) {
+            // console.log(result);
             $("#forecast").empty();
             $("#emptyDiv").empty();
 
