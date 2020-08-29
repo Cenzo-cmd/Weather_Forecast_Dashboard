@@ -92,10 +92,10 @@ function searchCity(findNewCity) {
         // console.log(response);
         $("#displayCityName").text(findNewCity);
         $("#humidity").text("Humidity: " + response.main.humidity + "%");
-        $("#temp").text("Temperature: " + response.main.temp + "\u00B0F");
-        $("#maxTemp").text("Max Temp: " + response.main.temp_max + "\u00B0F");
-        $("#windSpeed").text("Wind Speed: " + response.wind.speed + " MPH");
-        $("#feelsLike").text("Feels Like: " + response.main.feels_like + "\u00B0F");
+        $("#temp").text("Temperature: " + response.main.temp.toFixed(1) + "\u00B0F");
+        $("#maxTemp").text("Max Temp: " + response.main.temp_max.toFixed(1) + "\u00B0F");
+        $("#windSpeed").text("Wind Speed: " + response.wind.speed.toFixed(1) + " MPH");
+        $("#feelsLike").text("Feels Like: " + response.main.feels_like.toFixed(1) + "\u00B0F");
         $("#uvIndex").text("UV Index: " + "");
         var lat = response.coord.lat;
         var lon = response.coord.lon;
