@@ -18,14 +18,14 @@ function renderCities(cityArray) {
 
         for (var i = 0; i < cityArray.length; i++) {
             var liEl = $("<li>")
-                // var deleteButton = $("<button>").addClass("deleteButton").text("Remove");
+            var deleteButton = $("<button>").addClass("deleteButton").text("Remove");
             liEl.attr("data-name", cityArray[i]);
             liEl.addClass("city list-group-item");
             if (i === 0) {
                 liEl.addClass("active");
             }
             liEl.text(cityArray[i]);
-            // liEl.append(deleteButton);
+            liEl.append(deleteButton);
             $("#addCitiesHere").append(liEl);
         }
     } else {
@@ -47,18 +47,24 @@ function removeActive() {
     }
 }
 
-// $("body").on("click", ".deleteButton", function(event) {
-//     event.preventDefault();
-//     event.stopPropagation();
-//     console.log("hi");
-//     cityValue = $(this).parent().attr("data-name");
-//     console.log("the value is" + cityValue);
-// })
+$("body").on("click", ".deleteButton", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    console.log("hi");
+    cityValue = $(this).parent().attr("data-name");
+    console.log("the value is" + cityValue);
+    $(this).parent().remove();
+    cityArray = JSON.parse(localStorage.getItem("Cities")) || [];
+    const filteredCities = cityArray.filter(function(city) {
+        return city != cityValue;
+    })
+    localStorage.setItem("Cities", JSON.stringify(filteredCities));
+})
 
 function clickedCity(event) {
     event.stopPropagation();
     event.preventDefault();
-    var cityValue = $(this).text();
+    var cityValue = $(this).contents().get(0).nodeValue;
     var cityValueClass = $(this);
     searchCity(cityValue);
     updateClass(cityValueClass);
