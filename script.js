@@ -9,13 +9,10 @@ if (cityArray) {
     searchCity(cityArray[0]);
 }
 
-
 function renderCities(cityArray) {
-    console.log(cityArray);
     cityArray = JSON.parse(localStorage.getItem("Cities")) || [];
     if (cityArray && cityArray.length >= 1) {
         $("#addCitiesHere").empty();
-
         for (var i = 0; i < cityArray.length; i++) {
             var liEl = $("<li>")
             var deleteButton = $("<button>").addClass("deleteButton").text("Remove");
@@ -33,8 +30,6 @@ function renderCities(cityArray) {
     }
 }
 
-
-
 function updateClass(cityValueClass) {
     removeActive();
     cityValueClass.addClass("active");
@@ -50,15 +45,14 @@ function removeActive() {
 $("body").on("click", ".deleteButton", function(event) {
     event.preventDefault();
     event.stopPropagation();
-    console.log("hi");
     cityValue = $(this).parent().attr("data-name");
-    console.log("the value is" + cityValue);
     $(this).parent().remove();
     cityArray = JSON.parse(localStorage.getItem("Cities")) || [];
     const filteredCities = cityArray.filter(function(city) {
         return city != cityValue;
     })
     localStorage.setItem("Cities", JSON.stringify(filteredCities));
+    location.reload();
 })
 
 function clickedCity(event) {
@@ -71,21 +65,12 @@ function clickedCity(event) {
 }
 
 $(document).on("click", ".city", clickedCity);
-// event.stopPropagation();
-//     event.preventDefault();
-//     var cityValue = $(this).text();
-
-
 
 $("#citySubmit").on("click", function(event) {
     event.preventDefault();
     event.stopPropagation();
-    // $(this).addClass("active");
     var findNewCity = $("#citySearch").val().trim();
-
-    // findNewCity.addClass("active");
     $("#citySearch").val("");
-
     if (findNewCity === undefined || findNewCity === NaN || findNewCity === "") {
         return;
     };
@@ -96,7 +81,6 @@ $("#citySubmit").on("click", function(event) {
 })
 
 function searchCity(findNewCity) {
-
     var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${findNewCity}&units=imperial&appid=${APIKey}`;
     if (findNewCity === undefined || findNewCity === NaN || findNewCity === "") {
         return;
@@ -112,8 +96,7 @@ function searchCity(findNewCity) {
         $("#maxTemp").text("Max Temp: " + response.main.temp_max + "\u00B0F");
         $("#windSpeed").text("Wind Speed: " + response.wind.speed + " MPH");
         $("#feelsLike").text("Feels Like: " + response.main.feels_like + "\u00B0F");
-        $("#uvIndex").text("UV Index: " + "")
-
+        $("#uvIndex").text("UV Index: " + "");
         var lat = response.coord.lat;
         var lon = response.coord.lon;
         var latLong = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${APIKey}`;
@@ -124,7 +107,6 @@ function searchCity(findNewCity) {
             // console.log(result);
             $("#forecast").empty();
             $("#emptyDiv").empty();
-
             let uvIndexValue = result.current.uvi;
             if (uvIndexValue < 4) {
                 $("#uvIndex").attr("style", "background-color: green");;
@@ -135,10 +117,8 @@ function searchCity(findNewCity) {
             let mainIcon = result.current.weather[0].icon;
             let mainIconImg = "http://openweathermap.org/img/wn/" + mainIcon + ".png";
             let mainIconImg2 = $("<img>").attr("src", mainIconImg).addClass("mainIcon");
-
             $("#emptyDiv").append(mainIconImg2);
             for (var x = 1; x < 6; x++) {
-                // console.log(result);
                 let fiveDayTemp = result.daily[x].temp.day.toFixed(1);
                 let fiveDayHumidity = result.daily[x].humidity;
                 let fiveDayDate = result.daily[x].sunrise;
@@ -146,10 +126,8 @@ function searchCity(findNewCity) {
                 let fiveDayPic = result.daily[x].weather[0].icon;
                 let fiveDayIcon = "http://openweathermap.org/img/wn/" + fiveDayPic + ".png";
                 fiveDayDate = fiveDayDate * 1000;
-                // console.log(fiveDayDate);
                 let dateObject = new Date(fiveDayDate);
                 let humanDate = dateObject.toLocaleDateString();
-                // console.log(humanDate);
                 let divEl = $("<div>").addClass("card fiveDayCard").attr("style", "background-color: dodgerblue");
                 let imageEl = $("<img>").addClass("fiveDayImage").attr("src", fiveDayIcon);
                 $(divEl).append("<h5>" + humanDate + "</h5>");
@@ -159,9 +137,6 @@ function searchCity(findNewCity) {
                 $(divEl).append("<p>" + "Humidity: " + fiveDayHumidity + "%" + "</p>");
                 $("#forecast").append(divEl);
             }
-            // $("#citySearch").empty();
         })
-
     })
-
 }
